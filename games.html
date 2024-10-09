@@ -8,7 +8,7 @@
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <style type="text/css">
-  body{
+  #body1{
   color:white;
   }
   
@@ -35,6 +35,143 @@
   padding:5px;
   }
   
+  #chatbotBtn{
+  margin-bottom:60px; 
+  background-image:linear-gradient(to right,DodgerBlue,SlateBlue); 
+  color:white; 
+  padding:8px 10px; 
+  border:none; 
+  border-radius:4px; 
+  font-weight:bold; 
+  box-shadow:4px 4px 8px black;
+  }
+  
+  #chatbotBtn:hover{
+  background-image:linear-gradient(to right,SlateBlue,DodgerBlue);
+  }
+  
+  #name, #age{
+  display:inline-block;
+  width:100%;
+  margin:8px 0;
+  padding:15px 30px;
+  border:1px solid gray;
+  border-radius:6px;
+  }
+  
+  select{
+  display:inline-block;
+  width:100%;
+  margin:2px 0 10px 0;
+  padding:15px 30px;
+  border:1px solid gray;
+  border-radius:6px;
+  }
+  
+  #submitUserInfo{
+  display:inline-block;
+  width:100%;
+  margin:8px 0;
+  padding:15px 30px;
+  border:none;
+  border-radius:6px;
+  background-image:linear-gradient(to right,skyblue,pink);
+  color:white;
+  font-weight:bold;
+  box-shadow:4px 4px 8px gray;
+  }
+  
+  #submitUserInfo:hover{
+  background-image:linear-gradient(to right,pink,skyblue);
+  }
+  
+  div.form-check{
+  display:inline-block;
+  }
+  
+  #chabotHeader{
+  color:white;
+  font-weight:bold;
+  text-align:center;
+  background-image:linear-gradient(to right,CornflowerBlue,PaleVioletRed);
+  padding:10px 0;
+  margin:0;
+  }
+  
+  #chatBox{
+  width:100%;
+  height:500px;
+  background-image: url("chatbackground.jpeg");
+  opacity:0.4;
+  overflow-y: scroll;
+  color:black;
+  font-weight:bold;
+  }
+  
+  #inputMessage{
+  margin:4px 0 0 0;
+  width:80%;
+  border:2px solid gray;
+  border-radius:30px;
+  padding:10px 20px;
+  }
+  
+  #sendBtn{
+  float:right;
+  border-radius:50%;
+  width:45px;
+  height:45px;
+  font-size:28px;
+  border:none;
+  background-color:#dc5472;
+  color:white;
+  margin-top:4px;
+  }
+  
+  #sendBtn:hover{
+  background-color:#ac6ab5;
+  }
+  
+  #body2{
+  display:none;
+  }
+  
+  .message-bubble {
+  display: inline-block;
+  background-color: Red;
+  color:white;
+  padding: 6px 10px;
+  border-radius: 12px;
+  margin: 5px 0;
+  max-width: 70%; /* Adjust the max-width for wrapping */
+  word-wrap: break-word; /* Forces text to wrap if it's too long */
+  overflow-wrap: break-word; /* Adds compatibility for word wrapping */
+  font-size: 18px;
+  float:right;
+  }
+  
+  .message-bubble.short {
+  width: auto; /* For shorter texts, the width adjusts automatically */
+  float:right;
+  }
+  
+  .message-bubble2 {
+  display: inline-block;
+  background-color:Blue;
+  color:white;
+  padding: 6px 10px;
+  border-radius: 12px;
+  margin: 5px 0;
+  max-width: 70%; /* Adjust the max-width for wrapping */
+  word-wrap: break-word; /* Forces text to wrap if it's too long */
+  overflow-wrap: break-word; /* Adds compatibility for word wrapping */
+  font-size: 18px;
+  }
+  
+  .message-bubble2.short {
+  width: auto; /* For shorter texts, the width adjusts automatically */
+  }
+  
   #upperFooter{
   background-color:hsl(0, 0%, 20%);
   padding:10px;
@@ -47,6 +184,7 @@
   </style>
   </head>
 <body>
+<div id="body1">
 <!--navbar-->
  <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
  <div class="container-fluid">
@@ -137,7 +275,7 @@
     <div id="guessGames" class="container mt-3">
     <h1><b><i class="bi bi-dice-3"></i> Number Game</i></b></h1>
     <p>১ থেকে ১০০ পর্যন্ত রুবট <i class="bi bi-robot"></i> একটি সংখ্যা নির্বাচন করেছে। সেটা কি আপনাকে অনুমান করতে হবে।</p>
-    <form>
+    <form id="games">
     <input id="userInputGuessGame" type="number" class="form-control" placeholder="সংখ্যাটি লিখুন"><br>
     </form>
     <button type="button" class="btn btn-outline-warning" onclick="guesschecker()">Submit</button>
@@ -145,6 +283,61 @@
     </div>
     &nbsp;
     <p style="color:black"><strong>Game instruction:</strong> Computer or Robot determined a number between from 1 to 100. You have to presume a number. As fewer as your presume will be the Best score.</p>
+    <hr style="color:black;">
+    
+    <!--Chat bot-->
+    <div class="container mt-3 mb-3" style="color:black;">
+    <h1 >Feel Boring? Try to chat with our Chatbot</h1>
+    <button id="chatbotBtn" type="button" data-bs-toggle="collapse" data-bs-target="#chatBot">Start Chat with Chatbot</button>
+    </div>
+    
+    <div id="chatBot" class="container mt-3 mb-3 collapse" style="color:black">
+    <h3 style="font-weight:bold;">Fill the Form and go to Chatbot</h3>
+    <form id="chatBotForm">
+    <input type="text" name="fullname" id="name" placeholder="Your Name" required>
+    <input type="number" name="age" id="age" placeholder="Your Age" required>
+    
+    <label for="education">Educational Qualification:</label>
+    <select id="education" required>
+    <option value="">Select</option>
+    <option value="ssc">SSC</option>
+    <option value="hsc">HSC</option>
+    <option value="honours">Honours</option>
+    <option value="masters">Masters</option>
+    </select>
+    
+    <label for="division">Division:</label>
+    <select id="division" required>
+    <option value="">Select</option>
+    <option value="dhaka">Dhaka</option>
+    <option value="sylhet">Sylhet</option>
+    <option value="khulna">Khulna</option>
+    <option value="rajshahi">Rajshahi</option>
+    <option value="rangpur">Rangpur</option>
+    <option value="chittagong">Chittagong</option>
+    <option value="barishal">Barishal</option>
+    </select>
+    
+    <label for="">District:</label>
+    <select id="district" required>
+    <option value="">Select</option>
+    <option value="hobigonj">Hobigonj</option>
+    <option value="moulvibazar">Moulvibazar</option>
+    <option value="sylhet">Sylhet</option>
+    <option value="sunamganj">Sunamganj</option>
+    <option value="others">Others</option>
+    </select>
+    <div class="form-check">
+    <input type="radio" class="form-check-input" id="male" name="optradio" value="male" required>Male
+    <label class="form-check-label" for="male"></label>
+    </div>
+    <div class="form-check">
+    <input type="radio" class="form-check-input" id="female" name="optradio" value="female" required>Female
+    <label class="form-check-label" for="female"></label>
+    </div>
+    <button id="submitUserInfo" type="submit">Go to Chat <i class="bi bi-chat"></i></button>
+    </form>
+    </div>
     
     
     <footer>
@@ -181,102 +374,20 @@
     <p>All rights reserved | Copyright ©2024<br>Designed by Abdul Muktadir Nahid</p>
     </div>
     </footer>
-    <script>
-    //Reverse Sentence game
-    const stringsList = ["Twincle Twincle Little Star", "All that glitter is not gold", "The old that is strong does not wither", "Deep roots are not reached by the frost", "From the ashes a fire shall be woken","A light from the shadows shall spring","The crownless again shall be king","Renewed shall be blade that was broken","We love the things we love for what they are","You talk when you cease to be at peace with your thoughts","I carry your hear","Hope is the thing with feathers","The caged bird sings"];
-    let selectedString;
-    let timer;
-    let timeLeft = 45;
-    let userInputElement = document.getElementById('userInput');
-    let instructionElement = document.getElementById('instruction');
-    let timerElement = document.getElementById('timer');
-    let resultElement = document.getElementById('result');
-    let alertSound = document.getElementById('alertSound');
-    let startGameButton = document.getElementById('startGame');
-    let restartGameButton = document.getElementById('restartGame');
-    let inputContainer = document.getElementById('inputContainer');
+    </div>
     
-    startGameButton.addEventListener('click', startGame);
-    restartGameButton.addEventListener('click', restartGame);
-    
-    function startGame() {
-    selectedString = stringsList[Math.floor(Math.random() * stringsList.length)];
-    instructionElement.innerHTML =`<div id="inst"><h4>বাক্যটি লিখুন:</h4><h4 style="direction:rtl; unicode-bidi:bidi-override;">${selectedString}</h4></div>`;
-    inputContainer.style.display = 'block';  // Show the input field
-    timeLeft = 45;
-    timerElement.textContent = `Time left: ${timeLeft}s`;
-    userInputElement.value = '';
-    userInputElement.disabled = false;
-    userInputElement.focus();
-    resultElement.textContent = '';
-    restartGameButton.style.display = 'none';
-    startGameButton.style.display = 'none';
-    
-    timer = setInterval(function() {
-    timeLeft--;
-    timerElement.textContent = `Time left: ${timeLeft}s`;
-    
-    if (timeLeft <= 0) {
-    clearInterval(timer);
-    alertSound.play();
-    endGame(false);
-    }
-    }, 1000);
-    
-    userInputElement.addEventListener('input', checkInput);
-    }
-    
-    function checkInput() {
-    if (userInputElement.value === selectedString) {
-    clearInterval(timer);
-    endGame(true);
-    }
-    }
-    
-    function endGame(success) {
-    userInputElement.disabled = true;
-    restartGameButton.style.display = 'inline-block';
-    inputContainer.style.display = 'none';  // Hide the input field
-    if (success) {
-    resultElement.textContent = `আপনি উত্তরটি সফলভাবে দিতে পেরেছেন। আপনার সময় লেগেছে ${45 - timeLeft} সেকেন্ড।`;
-    } else {
-    resultElement.innerHTML = `সময় শেষ! আপনি উত্তর দিতে ব্যর্থ হয়েছেন। <br> বাক্যটি ছিলো: ❝ ${selectedString} ❞`;
-    }
-    }
-    
-    function restartGame() {
-    startGameButton.style.display = 'inline-block';
-    restartGameButton.style.display = 'none';
-    instructionElement.textContent = '';
-    timerElement.textContent = '';
-    resultElement.textContent = '';
-    inputContainer.style.display = 'none';  // Hide the input field
-    }
-    
-    
-    //Games
-    const randomNumber=Math.floor(Math.random()*100)+1;
-    let attempts=0;
-    
-    function guesschecker(){
-    let userInput=document.getElementById('userInputGuessGame').value;
-    let messageElement=document.getElementById('message');
-    attempts++;
-    
-    if(userInput==randomNumber){
-    messageElement.textContent=`অভিনন্দন! আপনার অনুমান সফল হয়েছে। আপনার অনুমানটি ছিল: ${randomNumber} আপনি ${attempts} বার চেষ্টা করেছেন।`;
-    messageElement.style.color='green';
-    } else if(userInput<randomNumber){
-    messageElement.textContent='অনেক ছোট সংখ্যা ধরেছেন। আরেকটু বড় সংখ্যা ধরুন';
-    messageElement.style.color='red';
-    userInput.value='';
-    }else{
-    messageElement.textContent='অনেক বড় সংখ্যা ধরেছেন। আরেকটু ছোট সংখ্যা ধরুন';
-    messageElement.style.color='red';
-    userInput.value='';
-    }
-    userInput.focus();
-    }
+    <div id="body2">
+    <h1 id="chabotHeader">Chatbot</h1>
+    <div id="chatBox" class="container-fluid">
+    </div>
+    <div id="chatFooter" class="container-fluid">
+    <form id="chatInput">
+    <input id="inputMessage" type="text" placeholder="Message">
+    <button id="sendBtn" type="submit"><i class="bi bi-send-fill"></i></button>
+    </form>
+    </div>
+    </div>
+    <script src="chatbot.js">
     </script>
 </body>
 </html>
