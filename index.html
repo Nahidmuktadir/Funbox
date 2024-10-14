@@ -25,6 +25,12 @@
   border-radius:8px;
   }
   
+  #exerciseOutput{
+  border:1px solid gray;
+  box-shadow:4px 4px 8px black;
+  padding: 5px;
+  }
+  
   .btn-dark{
   box-shadow:2px 2px 4px #363636;
   }
@@ -49,6 +55,10 @@
   border:2px solid gray;
   padding:10px;
   border-radius:8px;
+  }
+  
+  #notesElement pre{
+  font-size:18px;
   }
   
   #fixedUpper{
@@ -239,13 +249,14 @@
   </div>
   <textarea id="userNote" type="text" class="form-control" rows="5" placeholder="Notes" required></textarea><br>
   <button type="button" class="btn btn-warning" onclick="createNote()">Create Note</button>
+  <button id="resetNote" type="button" class="btn btn-danger" onclick="resetNotes()" style="display:none; float:right;">Reset</button>
   </form>
   <p id="notesOutput"></p>
   </div>
   <!--Pest anything here-->
   
   
-  <!--Fixed Tob arrow-->
+  <!--Fixed Top arrow-->
   <a id="fixedUpper" href="#"><i class="bi bi-arrow-up-circle-fill"></i></a>
   
   <footer>
@@ -306,27 +317,46 @@
   userInput.focus();
   }
   
-  //Exercise planer
-  function exercisePlaner(){
-  let subject=document.getElementById('subject').value;
-  let item=document.getElementById('item').value;
-  let output=`<div class="container mt-3" style="text-align:center;">
-  <p>Your Today's Study planer:</p>
-  <span class="badge bg-danger"><h4>${subject}</h4></span>
-  <p>${item}</p>
-  </div>`;
-  document.getElementById('exercise_planer_output').innerHTML=output;
+
+  // Exercise planner
+  function exercisePlaner() {
+  let subject = document.getElementById('subject').value;
+  let item = document.getElementById('item').value;
+  
+  if (subject === "" || item === "") {
+  alert("Both Subject and Item are required!");
+  return;
   }
   
-  function exercisePlaner2(){
-  let subject=document.getElementById('subject2').value;
-  let item=document.getElementById('item2').value;
-  let output=`<div class="container mt-3" style="text-align:center;">
-  <span class="badge bg-danger"><h4>${subject}</h4></span>
-  <p>${item}</p>
-  </div>`;
-  document.getElementById('exercise_planer_output2').innerHTML=output;
+  localStorage.setItem("subject", subject);
+  localStorage.setItem("item", item);
+  
+  document.getElementById('exercise_planer_output').innerHTML = `
+  <div id="exerciseOutput" class="container mt-3 mb-3">
+  <span class="badge bg-danger" style="margin-bottom:5px; font-size:18px; font-weight:bold">${subject}</span>
+  <span class="badge bg-danger" style="font-size:18px;">${item}</span>
+  </div>
+  `;
+  
+  // Clear input fields after submission
+  document.getElementById('subject').value = '';
+  document.getElementById('item').value = '';
   }
+  
+  window.onload = function refresh() {
+  let storedSubject = localStorage.getItem("subject");
+  let storedItem = localStorage.getItem("item");
+  
+  if (storedSubject && storedItem) {
+  document.getElementById('exercise_planer_output').innerHTML = `
+  <div id="exerciseOutput" class="container mt-3 mb-3">
+  <span class="badge bg-danger" style="margin-bottom:5px; font-size:18px; font-weight:bold">${storedSubject}</span>
+  <span class="badge bg-danger" style="font-size:18px;">${storedItem}</span>
+  </div>
+  `;
+  }
+  }
+  
   
   //Birthday finder
   function birthdayFinder(){
@@ -337,23 +367,52 @@
   }
   
   //Notes
-  function createNote(){
-  let title=document.getElementById('userNoteTitle').value;
-  let notes=document.getElementById('userNote').value;
-  if(title===""||notes===""){
-  alert("Both Title and Notes required!");
+  function createNote() {
+  let title = document.getElementById('userNoteTitle').value;
+  let notes = document.getElementById('userNote').value;
+  
+  if (title === "" || notes === "") {
+  alert("Both Title and Notes are required!");
   return;
   }
-  let printing=`<div id="notesElement" class="container mt-3">
-  <div class="mt-3">
+  
+  // Store the note in localStorage
+  localStorage.setItem('noteTitle', title);
+  localStorage.setItem('noteContent', notes);
+  
+  // Display the note
+  document.getElementById('notesOutput').innerHTML = `
+  <div id="notesElement" class="container mt-3">
   <h1>${title}</h1><hr><br>
+  <pre>${notes}</pre>
   </div>
-  <div class="mt-3">
-  <h4>${notes}</h4>
-  </div>
-  </div>`;
-  document.getElementById('notesOutput').innerHTML=printing;
+  `;
+  
+  // Clear the form
   document.getElementById('notesForm').reset();
+  //show reset button
+  document.getElementById('resetNote').style.display="block";
+  }
+  
+  // On page load, check if a note exists and display it
+  window.onload = function() {
+  let storedTitle = localStorage.getItem('noteTitle');
+  let storedNotes = localStorage.getItem('noteContent');
+  
+  if (storedTitle && storedNotes) {
+  document.getElementById('notesOutput').innerHTML = `
+  <div id="notesElement" class="container mt-3">
+  <h1>${storedTitle}</h1><hr><br>
+  <pre>${storedNotes}</pre>
+  </div>
+  `;
+  }
+  };
+  
+  //reset the note
+  function resetNotes(){
+  document.getElementById('notesOutput').innerHTML="";
+  document.getElementById('resetNote').style.display="none";
   }
   </script>
   </body>
