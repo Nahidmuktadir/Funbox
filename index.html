@@ -397,7 +397,7 @@
   <h1>${title}</h1><hr><br>
   <pre>${notes}</pre><br>
   <button type="button" class="btn btn-secondary edit-reset-Btn" onclick="edit()">Edit</button>
-  <button id="resetNote" type="button" class="btn btn-danger edit-reset-Btn" onclick="resetNotes()">Reset</button>
+  <button id="resetNote" type="button" class="btn btn-danger edit-reset-Btn" onclick="resetNotes()">Remove</button>
   </div>
   `;
   
@@ -420,7 +420,7 @@
   <h1>${storedTitle}</h1><hr><br>
   <pre>${storedNotes}</pre><br>
   <button type="button" class=" btn btn-secondary edit-reset-Btn" onclick="edit()">Edit</button>
-  <button id="resetBtn" type="button" class="btn btn-danger edit-reset-Btn" onclick="resetNotes()">Reset</button>
+  <button id="resetBtn" type="button" class="btn btn-danger edit-reset-Btn" onclick="resetNotes()">Remove</button>
   </div>
   `;
   }
@@ -428,11 +428,17 @@
   
   //reset the notes
   function resetNotes(){
+  let confirmeRemove=confirm("Do you want to Remove Note?");
+  if(confirmeRemove){
   localStorage.setItem("recoveryTitle",storedTitle);
   localStorage.setItem("recoveryNotes",storedNotes);
   document.getElementById('notesOutput').innerHTML="";
+  alert("Notes Successfully Removed");
   document.getElementById('recoveryBtn').style.display="block";
   document.getElementById('resetBtn').style.display="none";
+  }else{
+  alert("Remove was Cancelled");
+  }
   }
   
   function edit(){
