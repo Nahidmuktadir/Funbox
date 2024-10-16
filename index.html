@@ -26,7 +26,8 @@
   }
   
   #exerciseOutput{
-  border:1px solid gray;
+  background-color:#00264A;
+  border:hidden;
   box-shadow:4px 4px 8px black;
   padding: 5px;
   }
@@ -60,6 +61,15 @@
   #notesElement pre{
   font-size:18px;
   }
+  
+ .edit-reset-Btn{
+ margin: 10px 2px 2px 2px;
+ display:inline-block;
+ }
+ 
+ #recoveryBtn{
+ float:right;
+ }
   
   #fixedUpper{
   position:fixed;
@@ -248,8 +258,8 @@
   <input id="userNoteTitle" type="text" class="form-control" placeholder="Title" required>
   </div>
   <textarea id="userNote" type="text" class="form-control" rows="5" placeholder="Notes" required></textarea><br>
-  <button type="button" class="btn btn-warning" onclick="createNote()">Create Note</button>
-  <button id="resetNote" type="button" class="btn btn-danger" onclick="resetNotes()" style="display:none; float:right;">Reset</button>
+  <button id="submitNote" type="button" class="btn btn-warning" onclick="createNote()">Create Note</button>
+  <button id="recoveryBtn" type="button" class="btn btn-success" data-bs-toggle="tooltip" title="Recover Previous Data" onclick="recoveryNote()" style="display:none;">Recover Note</button>
   </form>
   <p id="notesOutput"></p>
   </div>
@@ -333,8 +343,8 @@
   
   document.getElementById('exercise_planer_output').innerHTML = `
   <div id="exerciseOutput" class="container mt-3 mb-3">
-  <span class="badge bg-danger" style="margin-bottom:5px; font-size:18px; font-weight:bold">${subject}</span>
-  <span class="badge bg-danger" style="font-size:18px;">${item}</span>
+  <h1 style="margin-bottom:5px; font-size:20px; font-weight:bold; text-align:center; color:white;">${subject}</h1>
+  <pre style="font-size:18px; color:white;">${item}</pre>
   </div>
   `;
   
@@ -343,19 +353,19 @@
   document.getElementById('item').value = '';
   }
   
-  window.onload = function refresh() {
+  window.onload = (function() {
   let storedSubject = localStorage.getItem("subject");
   let storedItem = localStorage.getItem("item");
   
   if (storedSubject && storedItem) {
   document.getElementById('exercise_planer_output').innerHTML = `
   <div id="exerciseOutput" class="container mt-3 mb-3">
-  <span class="badge bg-danger" style="margin-bottom:5px; font-size:18px; font-weight:bold">${storedSubject}</span>
-  <span class="badge bg-danger" style="font-size:18px;">${storedItem}</span>
+  <h1 style="margin-bottom:5px; font-size:20px; font-weight:bold; text-align:center; color:white;">${storedSubject}</h1>
+  <pre style="font-size:18px; color:white;">${storedItem}</pre>
   </div>
   `;
   }
-  }
+  })();
   
   
   //Birthday finder
@@ -370,6 +380,7 @@
   function createNote() {
   let title = document.getElementById('userNoteTitle').value;
   let notes = document.getElementById('userNote').value;
+
   
   if (title === "" || notes === "") {
   alert("Both Title and Notes are required!");
@@ -381,10 +392,12 @@
   localStorage.setItem('noteContent', notes);
   
   // Display the note
-  document.getElementById('notesOutput').innerHTML = `
+  document.getElementById('notesOutput').innerHTML= `
   <div id="notesElement" class="container mt-3">
   <h1>${title}</h1><hr><br>
-  <pre>${notes}</pre>
+  <pre>${notes}</pre><br>
+  <button type="button" class="btn btn-secondary edit-reset-Btn" onclick="edit()">Edit</button>
+  <button id="resetNote" type="button" class="btn btn-danger edit-reset-Btn" onclick="resetNotes()">Reset</button>
   </div>
   `;
   
@@ -395,25 +408,67 @@
   }
   
   // On page load, check if a note exists and display it
+  let storedTitle;
+  let storedNotes;
   window.onload = function() {
-  let storedTitle = localStorage.getItem('noteTitle');
-  let storedNotes = localStorage.getItem('noteContent');
+  storedTitle = localStorage.getItem('noteTitle');
+  storedNotes = localStorage.getItem('noteContent');
   
   if (storedTitle && storedNotes) {
-  document.getElementById('notesOutput').innerHTML = `
+  document.getElementById('notesOutput').innerHTML= `
   <div id="notesElement" class="container mt-3">
   <h1>${storedTitle}</h1><hr><br>
-  <pre>${storedNotes}</pre>
+  <pre>${storedNotes}</pre><br>
+  <button type="button" class=" btn btn-secondary edit-reset-Btn" onclick="edit()">Edit</button>
+  <button id="resetBtn" type="button" class="btn btn-danger edit-reset-Btn" onclick="resetNotes()">Reset</button>
   </div>
   `;
   }
   };
   
-  //reset the note
+  //reset the notes
   function resetNotes(){
+  localStorage.setItem("recoveryTitle",storedTitle);
+  localStorage.setItem("recoveryNotes",storedNotes);
   document.getElementById('notesOutput').innerHTML="";
-  document.getElementById('resetNote').style.display="none";
+  document.getElementById('recoveryBtn').style.display="block";
+  document.getElementById('resetBtn').style.display="none";
   }
+  
+  function edit(){
+  document.getElementById('userNoteTitle').value=storedTitle;
+  document.getElementById('userNote').value=storedNotes;
+  document.getElementById('userNoteTitle').focus();
+  }
+  
+  //When inpute change then the button will change
+  document.getElementById('userNoteTitle').addEventListener('input', function(){
+  document.getElementById('submitNote').textContent='Update Note';
+  });
+  
+  //When inpute change then the button will change
+  document.getElementById('userNote').addEventListener('input', function(){
+  document.getElementById('submitNote').textContent='Update Note';
+  });
+  
+  function recoveryNote(){
+  let recoveryNoteTitle=localStorage.getItem("recoveryTitle");
+  let recoveryNoteContent=localStorage.getItem("recoveryNotes");
+  document.getElementById('notesOutput').innerHTML= `
+  <div id="notesElement" class="container mt-3">
+  <h1>${recoveryNoteTitle}</h1><hr><br>
+  <pre>${recoveryNoteContent}</pre><br>
+  <button type="button" class=" btn btn-secondary edit-reset-Btn" onclick="edit()">Edit</button>
+  <button id="resetBtn" type="button" class="btn btn-danger edit-reset-Btn" onclick="resetNotes()">Reset</button>
+  </div>
+  `;
+  }
+  
+  // Initialize tooltips
+  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl)
+  })
   </script>
   </body>
   </html>
