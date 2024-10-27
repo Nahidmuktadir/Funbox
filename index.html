@@ -115,13 +115,16 @@
   </li>
   </ul>
   <form class="d-flex">
-  <input type="text" class="form-control me-2" placeholder="Search">
-  <button type="button" class="btn btn-primary">Search</button>
+  <input id="searchInput" type="text" class="form-control me-2" placeholder="Search">
+  <button id="searchBtn" type="button" class="btn btn-primary">Search</button>
   </form>
   </div>
   </div>
   </nav>
   
+  
+  <!--Search Result Output-->
+  <p id="searchResultOutput"></p>
   
   
   <!-- Carousel -->
@@ -169,7 +172,7 @@
   
   
   <!--Ripley's Believe it or not-->
-  <div class="container mt-3">
+  <div class="container mt-3 search-item" data-keywords="ripley's">
   <div class="row">
   <h1 style="color:#FF4400; text-align:center; text-shadow:2px 2px 4px #000000;">Ripley's Believe It or Not</h1>
   <hr>
@@ -185,7 +188,7 @@
   </div>
   
   <!--Games-->
-  <div id="games" class="container mt-3">
+  <div id="games" class="container mt-3 search-item" data-keywords="number game">
   <h1><b><i class="bi bi-dice-3"></i> Number Game</i></b></h1>
   <p>১ থেকে ১০০ পর্যন্ত রুবট <i class="bi bi-robot"></i> একটি সংখ্যা নির্বাচন করেছে। সেটা কি আপনাকে অনুমান করতে হবে।</p>
   <form>
@@ -198,7 +201,7 @@
   
   
   <!--Exercise Planer-->
-  <div id="exercise_planer" class="container mt-3">
+  <div id="exercise_planer" class="container mt-3 search-item" data-keywords="exercise planner study">
   <h1 style="text-align:center;">Exercise Planer</h1>
   <hr>
   <p style="text-align:center;">You can add your favourite subject for today's Study. You can also add Subject's topics.</p>
@@ -237,7 +240,7 @@
   
   
   <!--Birthday finder-->
-  <div id="birthday_container" class="mt-3">
+  <div id="birthday_container" class="mt-3 search-item" data-keywords="birthday finder">
   <h1 id="birthday_headings">Birthday Finder</h1>
   <hr>
   <h4>আপনার জন্মদিন কি বার ছিলো মনে আছে? <i class="bi bi-balloon"></i><i class="bi bi-balloon-fill"></i><i class="bi bi-cake-fill"></i> <br> মনে না থাকলেও কোনো সমস্যা নেই।<br> ঝটপট খুঁজে বের করুন আপনার জন্মদিন কি বারে ছিলো।</h4>
@@ -250,7 +253,7 @@
   
   
   <!--Notes-->
-  <div class="container mt-3">
+  <div class="container mt-3 search-item" data-keywords="notes title">
   <h1>Creating Notes</h1>
   <p>Add your Note's Title and Notes Element into the submit form</p>
   <form id="notesForm">
@@ -476,6 +479,27 @@
   var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl)
   })
+  
+  //search Engine
+  document.getElementById('searchBtn').addEventListener('click', function(){
+  let searchQuery=document.getElementById('searchInput').value.toLowerCase();
+  let items=document.querySelectorAll('.search-item');
+  let resultContainer=document.getElementById('searchResultOutput');
+  resultContainer.innerHTML="Showing Results:<br>";
+  
+  let found=false;
+  items.forEach(function(item){
+  let keywords=item.getAttribute("data-keywords").toLowerCase();
+  if(keywords.includes(searchQuery)){
+  let clone=item.cloneNode(true);
+  resultContainer.appendChild(clone);
+  found=true;
+  }
+  });
+  if(!found){
+  resultContainer.innerHTML="<p>Result not found</p>";
+  }
+  });
   </script>
   </body>
   </html>
